@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 public class Film {
 
     private int id;
-    @NotNull
+    @NotBlank
     private String name;
     @Size(min = 1, max = 200)
     private String description;
