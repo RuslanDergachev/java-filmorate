@@ -21,9 +21,9 @@ public class FilmController {
         return films;
     }
 
-    @Valid
+
     @PostMapping("/films")
-    public void create(@RequestBody Film film) {
+    public void create(@Valid @RequestBody Film film) {
         log.info("Запрос на добавление фильма получен.");
         if (film.getReleaseDate().isBefore(LocalDate.of(1985, 12, 28))) {
             createIdFilms();
@@ -32,9 +32,8 @@ public class FilmController {
         }
     }
 
-    @Valid
     @PutMapping("/films")
-    public void updateFilm(@RequestBody Film film) {
+    public void updateFilm(@Valid @RequestBody Film film) {
         log.info("Запрос на обновление фильма");
             films.put(film.getId(), film);
     }
