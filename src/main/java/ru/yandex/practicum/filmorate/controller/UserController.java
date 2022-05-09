@@ -29,8 +29,8 @@ public class UserController {
                 createId();
                 user.setId(id);
                 users.put(user.getLogin(), user);
-            }
-        return user;
+                return user;
+            } throw new ValidationException("Введите корректные данные пользователя");
     }
 
     @PutMapping("/users")

@@ -4,10 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.Duration;
 import java.time.LocalDate;
 
@@ -17,13 +14,13 @@ import java.time.LocalDate;
 public class Film {
 
     private int id;
+    @NotNull
     @NotBlank
     private String name;
-    @NotBlank
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     private String description;
     private LocalDate releaseDate;
     @Min(1)
-    private Duration duration;
+    private int duration;
 
 }
