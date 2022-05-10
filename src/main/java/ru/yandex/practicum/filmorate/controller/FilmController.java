@@ -22,14 +22,11 @@ public class FilmController {
         return films;
     }
 
-
     @PostMapping("/films")
     public Film create(@Valid @RequestBody Film film) {
         log.info("Запрос на добавление фильма получен.");
-        if (film.getReleaseDate().isAfter(LocalDate.of(1895, 12, 28))&& film.getDuration()>0
-                && !film.getDescription().isEmpty() && !film.getName().isEmpty()) {
-            createIdFilms();
-            film.setId(idFilm);
+        if (film.getReleaseDate().isAfter(LocalDate.of(1895, 12, 28))) {
+            film.setId(idFilm++);
             films.put(film.getName(), film);
             return films.get(film.getName());
         }
@@ -40,9 +37,5 @@ public class FilmController {
     public void updateFilm(@Valid @RequestBody Film film) {
         log.info("Запрос на обновление фильма");
         films.put(film.getName(), film);
-    }
-
-    public int createIdFilms() {
-        return idFilm++;
     }
 }

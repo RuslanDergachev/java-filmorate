@@ -14,10 +14,10 @@ import java.time.LocalDate;
 public class Film {
 
     private int id;
-    @NotNull
     @NotBlank
     private String name;
-    @Size(max = 200)
+    @NotBlank
+    @Size(min = 1, max = 200)
     private String description;
     private LocalDate releaseDate;
     @Min(1)
