@@ -1,8 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.Email;
@@ -12,17 +10,16 @@ import java.time.LocalDate;
 
 @Data
 @Slf4j
-@EqualsAndHashCode
 public class User {
 
     private int id;
     @Email()
-    @NonNull
+    @NotBlank
     private String email;
     @NotBlank
     @Size(min = 1)
     private String login;
-    private final String name;
-    private final LocalDate birthday;
+    private String name;
+    private LocalDate birthday;
 
 }

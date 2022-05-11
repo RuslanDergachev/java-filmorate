@@ -7,35 +7,43 @@ import ru.yandex.practicum.filmorate.model.Film;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @Slf4j
 public class FilmController {
 
-    private final HashMap<String, Film> films = new HashMap<>();
-    int idFilm;
+    private final HashMap<Integer, Film> films = new HashMap<>();
+    private int idFilm;
 
     @GetMapping("/films")
-    public HashMap<String, Film> allFilms() {
+    public List<Film> allFilms() {
         log.info("Запрос списка всех фильмов получен.");
-        return films;
+        List<Film> listFilms = new ArrayList<>(films.values());
+        return listFilms;
     }
 
     @PostMapping("/films")
     public Film create(@Valid @RequestBody Film film) {
         log.info("Запрос на добавление фильма получен.");
-        if (film.getReleaseDate().isAfter(LocalDate.of(1895, 12, 28))) {
-            film.setId(idFilm++);
-            films.put(film.getName(), film);
-            return films.get(film.getName());
-        }
-        throw new ValidationException("Введите корректные данные фильма");
+        validationDataReleaseFilm(film);
+        film.setId(idFilm++);
+        films.put(film.getId(), film);
+        return films.get(film.getId());
     }
 
     @PutMapping("/films")
     public void updateFilm(@Valid @RequestBody Film film) {
         log.info("Запрос на обновление фильма");
-        films.put(film.getName(), film);
+        validationDataReleaseFilm(film);
+        films.put(film.getId(), film);
+    }
+
+    public void validationDataReleaseFilm(Film film) {
+        if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
+            throw new ValidationException("Дата релиза фильма ранее 28.12.1895");
+        }
     }
 }
