@@ -11,7 +11,6 @@ import java.time.LocalDate;
 
 @Data
 @Slf4j
-@EqualsAndHashCode
 public class Film {
 
     private int id;
