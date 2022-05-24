@@ -1,17 +1,16 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.NotFoundException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.model.ValidationException;
 import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static ru.yandex.practicum.filmorate.Constants.DESCENDING_ORDER;
@@ -19,15 +18,10 @@ import static ru.yandex.practicum.filmorate.Constants.DESCENDING_ORDER;
 @RestController
 @Component
 @Slf4j
+@AllArgsConstructor
 public class UserController {
     private final UserService userService;
     private final UserStorage userStorage;
-
-    @Autowired
-    public UserController(UserService userService, UserStorage userStorage) {
-        this.userService = userService;
-        this.userStorage = userStorage;
-    }
 
     @GetMapping("/users")
     public List<User> findAllUsers() {
@@ -81,7 +75,6 @@ public class UserController {
         userService.deleteFromFriends(id, friendId);
     }
 
-
     @GetMapping("users/{id}/friends")//возвращаем список друзей
     public List<User> returnListFriends(@PathVariable int id) {
         log.info("Получен запрос на получение списка друзей");
@@ -101,6 +94,5 @@ public class UserController {
             throw new NotFoundException("ID равно 0");
         }
         return userService.returnListMutualFriends(id, otherId, DESCENDING_ORDER);
-
     }
 }

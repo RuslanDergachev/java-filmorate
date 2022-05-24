@@ -35,11 +35,6 @@ class FilmControllerTest {
             }
 
             @Override
-            public void validationDataReleaseFilm(Film film) {
-
-            }
-
-            @Override
             public Film getFilmById(int filmId) {
                 return null;
             }

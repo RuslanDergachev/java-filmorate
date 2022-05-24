@@ -13,24 +13,28 @@ import static ru.yandex.practicum.filmorate.Constants.DESCENDING_ORDER;
 @Service
 public class UserService {
 
-    UserStorage userStorage;
-    List<User> allFriends;
-    List<User> mutualFriends;
+    private UserStorage userStorage;
+    private List<User> allFriends;
+    private List<User> mutualFriends;
+
     @Autowired
     public UserService(UserStorage userStorage) {
         this.userStorage = userStorage;
     }
 
     public void addToFriends(int userId, int friendId) {
-        userStorage.getUserById(userId).getFriends().add(friendId);
-        userStorage.getUserById(friendId).getFriends().add(userId);
+        if (userStorage.getUserById(userId) != null) {
+            userStorage.getUserById(userId).getFriends().add(friendId);
+            userStorage.getUserById(friendId).getFriends().add(userId);
         }
+    }
 
     public void deleteFromFriends(int userId, int friendId) {
         if (userStorage.getUserById(userId) != null) {
             userStorage.getUserById(userId).getFriends().remove(friendId);
-            }
+            userStorage.getUserById(friendId).getFriends().remove(userId);
         }
+    }
 
     public List<User> returnListFriends(int userId, String sort) {
         allFriends = userStorage.getUserById(userId).getFriends().stream()

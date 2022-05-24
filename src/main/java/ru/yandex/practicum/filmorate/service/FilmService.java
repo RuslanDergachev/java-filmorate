@@ -9,27 +9,19 @@ import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
-    FilmStorage filmStorage;
-    List<Film> bestFilms;
+    private final FilmStorage filmStorage;
+    private List<Film> bestFilms;
 
     public FilmService(FilmStorage filmStorage) {
         this.filmStorage = filmStorage;
     }
 
     public void createLike(int idFilm, int userId) {
-        for (Film film : filmStorage.returnAllFilms()) {
-            if (film.getId() == idFilm) {
-                film.getLikes().add(userId);
-            }
-        }
+        filmStorage.getFilmById(idFilm).getLikes().add(userId);
     }
 
     public void deleteLikeFilm(int idFilm, int userId) {
-        for (Film film : filmStorage.returnAllFilms()) {
-            if (film.getId() == idFilm) {
-                film.getLikes().remove(userId);
-            }
-        }
+        filmStorage.getFilmById(idFilm).getLikes().remove(userId);
     }
 
     public List<Film> returnListBestFilms(Integer count) {

@@ -1,31 +1,26 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.NotFoundException;
-import ru.yandex.practicum.filmorate.model.ValidationException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
 @Component
 @RestController
+@AllArgsConstructor
 public class FilmController {
     private final FilmService filmService;
     private final FilmStorage filmStorage;
-
-
-    @Autowired
-    public FilmController(FilmService filmService, FilmStorage filmStorage) {
-        this.filmService = filmService;
-        this.filmStorage = filmStorage;
-    }
 
     @GetMapping("/films")
     public List<Film> allFilms() {
@@ -45,6 +40,7 @@ public class FilmController {
     @PostMapping("/films")
     public Film create(@Valid @RequestBody Film film) throws ValidationException {
         log.info("Запрос на добавление фильма получен.");
+        validationDataReleaseFilm(film);
         return filmStorage.createFilm(film);
     }
 
@@ -54,11 +50,8 @@ public class FilmController {
         if (film.getId() <= 0) {
             throw new NotFoundException("ID меньше или равно 0");
         }
+        validationDataReleaseFilm(film);
         return filmStorage.updateFilm(film);
-    }
-
-    public void validationDataReleaseFilm(Film film) throws ValidationException {
-        filmStorage.validationDataReleaseFilm(film);
     }
 
     @PutMapping("/films/{id}/like/{userId}")
@@ -83,6 +76,12 @@ public class FilmController {
         log.info("Получен запрос на получение списка лучших фильмов");
 
         return filmService.returnListBestFilms(count);
+    }
+
+    public void validationDataReleaseFilm(Film film) throws ValidationException {
+        if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
+            throw new ValidationException("Дата релиза фильма ранее 28.12.1895");
+        }
     }
 }
 

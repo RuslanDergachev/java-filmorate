@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.storage;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.model.ValidationException;
+import ru.yandex.practicum.filmorate.exception.ValidationException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,11 +15,10 @@ public class InMemoryUserStorage implements UserStorage {
     private int id;
 
     public List<User> findAllUsers() {
-        List<User> listUsers = new ArrayList<>(users.values());
-        return listUsers;
+        return new ArrayList<>(users.values());
     }
 
-    public User create(User user) throws ValidationException{
+    public User create(User user) throws ValidationException {
         validationUser(user);
         user.setId(++id);
         users.put(user.getId(), user);
@@ -32,7 +31,7 @@ public class InMemoryUserStorage implements UserStorage {
         return users.get(user.getId());
     }
 
-    public void validationUser(User user) throws ValidationException{
+    public void validationUser(User user) throws ValidationException {
         if (user.getBirthday().isAfter(LocalDate.now())) {
             throw new ValidationException("Недопустимая дата рождения");
         }
