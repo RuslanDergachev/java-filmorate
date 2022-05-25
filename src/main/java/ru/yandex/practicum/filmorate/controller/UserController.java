@@ -41,7 +41,7 @@ public class UserController {
     @PostMapping("/users")
     public User create(@Valid @RequestBody User user) throws ValidationException {
         log.info("Получен запрос на создание нового пользователя");
-        return userStorage.create(user);
+            return userStorage.create(user);
     }
 
     @PutMapping("/users")
@@ -89,7 +89,7 @@ public class UserController {
 
     @GetMapping("users/{id}/friends/common/{otherId}")//возвращаем список друзей, общих с другим пользователем
     public List<User> returnListMutualFriends(@PathVariable int id, @PathVariable int otherId) {
-        log.info("Получен запрос на списка общих друзей");
+        log.info("Получен запрос списка общих друзей");
         if (id <= 0 || otherId <= 0) {
             throw new NotFoundException("ID равно 0");
         }

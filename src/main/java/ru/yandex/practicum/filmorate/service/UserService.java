@@ -25,18 +25,18 @@ public class UserService {
     }
 
     public void addToFriends(int userId, int friendId) {
-        log.warn("Ошибка добавления в друзья");
         if (userStorage.getUserById(userId) != null) {
             userStorage.getUserById(userId).getFriends().add(friendId);
             userStorage.getUserById(friendId).getFriends().add(userId);
+            log.info("Для пользователя id: "+userId+" успешно добавлен друг id: "+friendId);
         }
     }
 
     public void deleteFromFriends(int userId, int friendId) {
-        log.warn("Ошибка удаления из друзей");
         if (userStorage.getUserById(userId) != null) {
             userStorage.getUserById(userId).getFriends().remove(friendId);
             userStorage.getUserById(friendId).getFriends().remove(userId);
+            log.info("Для пользователя id: "+userId+" успешно удален друг id: "+friendId);
         }
     }
 

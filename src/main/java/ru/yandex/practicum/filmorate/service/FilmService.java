@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
@@ -19,13 +20,21 @@ public class FilmService {
     }
 
     public void createLike(int idFilm, int userId) {
-        log.warn("Ошибка создания Like");
+        if (filmStorage.getFilmById(idFilm) == null) {
+            log.info("Не удалось добавить Like к фильму");
+            throw new NotFoundException("Фильм не найден");
+        }
         filmStorage.getFilmById(idFilm).getLikes().add(userId);
+        log.info("Like успешно создан");
     }
 
     public void deleteLikeFilm(int idFilm, int userId) {
-        log.warn("Ошибка удаления Like");
+        if (filmStorage.getFilmById(idFilm) == null) {
+            log.info("Не удалось удалить Like к фильму");
+            throw new NotFoundException("Фильм не найден");
+        }
         filmStorage.getFilmById(idFilm).getLikes().remove(userId);
+        log.warn("Like успешно удален");
     }
 
     public List<Film> returnListBestFilms(Integer count) {

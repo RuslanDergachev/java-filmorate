@@ -54,15 +54,17 @@ class FilmControllerTest {
     }
 
     @Test
-    void createFilmByIdTest() throws ValidationException {
+    void createFilmTest() throws ValidationException {
 
         Film newFilm = new Film();
         newFilm.setId(1);
-        newFilm.setName("Venom-3");
+        newFilm.setName("mrak");
         newFilm.setDescription("фантастика");
         newFilm.setReleaseDate(LocalDate.of(1999, 01, 01));
         newFilm.setDuration(90);
         filmController.create(newFilm);
+
+
         assertEquals(newFilm, filmController.getFilmById(1));
         assertEquals(1, filmController.getFilmById(1).getId());
 
@@ -90,7 +92,7 @@ class FilmControllerTest {
 
         final NotFoundException exception = assertThrows(NotFoundException.class,
                 () -> {
-                    filmController.updateFilm(newFilm2);;
+                    filmController.updateFilm(newFilm2);
                 });
 
         assertEquals("ID меньше или равно 0", exception.getMessage());

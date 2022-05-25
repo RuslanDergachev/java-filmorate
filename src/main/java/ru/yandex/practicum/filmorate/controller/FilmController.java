@@ -64,6 +64,7 @@ public class FilmController {
     public void deleteLikeFilm(@PathVariable int id, @PathVariable int userId) {
         log.info("Получен запрос на удаление лайка к фильму");
         if (id <= 0 || userId <= 0) {
+            log.info("Неверный ID для удаления фильма");
             throw new NotFoundException("ID меньше или равно 0");
         }
         filmService.deleteLikeFilm(id, userId);
