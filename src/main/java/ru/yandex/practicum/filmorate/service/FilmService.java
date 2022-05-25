@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
@@ -7,6 +8,7 @@ import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class FilmService {
     private final FilmStorage filmStorage;
@@ -17,10 +19,12 @@ public class FilmService {
     }
 
     public void createLike(int idFilm, int userId) {
+        log.warn("Ошибка создания Like");
         filmStorage.getFilmById(idFilm).getLikes().add(userId);
     }
 
     public void deleteLikeFilm(int idFilm, int userId) {
+        log.warn("Ошибка удаления Like");
         filmStorage.getFilmById(idFilm).getLikes().remove(userId);
     }
 

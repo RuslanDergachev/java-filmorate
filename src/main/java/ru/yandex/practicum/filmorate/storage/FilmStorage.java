@@ -14,7 +14,4 @@ public interface FilmStorage {
     Film updateFilm(Film film) throws ValidationException;
 
     Film getFilmById(int filmId);
-
-
-
 }

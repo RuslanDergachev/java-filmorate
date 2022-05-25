@@ -31,9 +31,9 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable int id) {
-        log.info("Получен запрос на получение данных пользователя пользователей");
+        log.info("Получен запрос на получение данных пользователя");
         if (id <= 0) {
-            throw new NotFoundException("ID равно 0");
+            throw new NotFoundException("ID меньше или равно 0");
         }
         return userStorage.getUserById(id);
     }
@@ -48,7 +48,7 @@ public class UserController {
     public User updateUser(@Valid @RequestBody User user) throws ValidationException {
         log.info("Получен запрос на обновление пользователя");
         if (user.getId() <= 0) {
-            throw new NotFoundException("ID равно 0");
+            throw new NotFoundException("ID меньше или равно 0");
         }
         return userStorage.updateUser(user);
     }
@@ -61,7 +61,7 @@ public class UserController {
     public void addToFriends(@PathVariable int id, @PathVariable int friendId) {
         log.info("Получен запрос на добавление в друзья");
         if (id <= 0 || friendId <= 0) {
-            throw new NotFoundException("ID равно 0");
+            throw new NotFoundException("ID меньше или равно 0");
         }
         userService.addToFriends(id, friendId);
     }
@@ -70,7 +70,7 @@ public class UserController {
     public void deleteFromFriends(@PathVariable int id, @PathVariable int friendId) {
         log.info("Получен запрос на удаление из друзей");
         if (id <= 0 || friendId <= 0) {
-            throw new NotFoundException("ID равно 0");
+            throw new NotFoundException("ID меньше или равно 0");
         }
         userService.deleteFromFriends(id, friendId);
     }

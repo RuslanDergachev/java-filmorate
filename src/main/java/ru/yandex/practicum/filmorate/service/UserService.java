@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 import static ru.yandex.practicum.filmorate.Constants.DESCENDING_ORDER;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -23,6 +25,7 @@ public class UserService {
     }
 
     public void addToFriends(int userId, int friendId) {
+        log.warn("Ошибка добавления в друзья");
         if (userStorage.getUserById(userId) != null) {
             userStorage.getUserById(userId).getFriends().add(friendId);
             userStorage.getUserById(friendId).getFriends().add(userId);
@@ -30,6 +33,7 @@ public class UserService {
     }
 
     public void deleteFromFriends(int userId, int friendId) {
+        log.warn("Ошибка удаления из друзей");
         if (userStorage.getUserById(userId) != null) {
             userStorage.getUserById(userId).getFriends().remove(friendId);
             userStorage.getUserById(friendId).getFriends().remove(userId);

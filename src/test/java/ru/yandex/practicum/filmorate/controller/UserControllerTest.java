@@ -1,47 +1,22 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.Test;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
-import ru.yandex.practicum.filmorate.storage.UserStorage;
-
 import javax.validation.ValidationException;
 import java.time.LocalDate;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UserControllerTest {
 
+    InMemoryUserStorage inMemoryUserStorage = new InMemoryUserStorage();
+    UserController userController = new UserController(new UserService(inMemoryUserStorage), inMemoryUserStorage);
+
     @Test
     void returnValidateExceptionForBirthdayUser() {
-        UserController userController = new UserController(new UserService(new UserStorage() {
-            @Override
-            public List<User> findAllUsers() {
-                return null;
-            }
-
-            @Override
-            public User create(User user) {
-                return null;
-            }
-
-            @Override
-            public User updateUser(User user) {
-                return null;
-            }
-
-            @Override
-            public void validationUser(User user) {
-
-            }
-
-            @Override
-            public User getUserById(int id) {
-                return null;
-            }
-        }), new InMemoryUserStorage());
 
         User user = new User();
         user.setId(1);
@@ -57,4 +32,41 @@ class UserControllerTest {
 
         assertEquals("Недопустимая дата рождения", exception.getMessage());
     }
+
+    @Test
+    void getUserByIdTest() {
+
+        User user = new User();
+        user.setId(0);
+        user.setEmail("pochta@mail.ru");
+        user.setLogin("homosapiens");
+        user.setName("Vasya");
+        user.setBirthday(LocalDate.of(1999, 01, 01));
+
+        final NotFoundException exception = assertThrows(NotFoundException.class,
+                () -> {
+                    userController.getUserById(user.getId());
+                });
+
+        assertEquals("ID меньше или равно 0", exception.getMessage());
+    }
+
+    @Test
+    void updateUserTest() {
+
+        User user = new User();
+        user.setId(0);
+        user.setEmail("pochta@mail.ru");
+        user.setLogin("homosapiens");
+        user.setName("Vasya");
+        user.setBirthday(LocalDate.of(1999, 01, 01));
+
+        final NotFoundException exception = assertThrows(NotFoundException.class,
+                () -> {
+                    userController.updateUser(user);
+                });
+
+        assertEquals("ID меньше или равно 0", exception.getMessage());
+    }
+
 }

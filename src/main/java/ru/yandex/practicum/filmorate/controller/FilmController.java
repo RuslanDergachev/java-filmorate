@@ -32,7 +32,7 @@ public class FilmController {
     public Film getFilmById(@PathVariable int id) {
         log.info("Получен запрос на получение фильма");
         if (id <= 0) {
-            throw new NotFoundException("ID равно 0");
+            throw new NotFoundException("ID меньше или равно 0");
         }
         return filmStorage.getFilmById(id);
     }
