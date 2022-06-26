@@ -24,12 +24,9 @@ import static ru.yandex.practicum.filmorate.Constants.DESCENDING_ORDER;
 @Service
 public class UserService {
 
-
     private UserStorage userStorage;
     private List<User> allFriends;
-    private List<User> mutualFriends;
 
-    @Autowired
     public UserService(@Qualifier("userDbStorage") UserStorage userStorage) {
         this.userStorage = userStorage;
     }
