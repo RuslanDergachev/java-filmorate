@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
@@ -11,6 +11,7 @@ import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.yandex.practicum.filmorate.Constants.DESCENDING_ORDER;
@@ -18,10 +19,15 @@ import static ru.yandex.practicum.filmorate.Constants.DESCENDING_ORDER;
 @RestController
 @Component
 @Slf4j
-@AllArgsConstructor
+
 public class UserController {
     private final UserService userService;
     private final UserStorage userStorage;
+
+    public UserController(UserService userService, @Qualifier("userDbStorage") UserStorage userStorage) {
+        this.userService = userService;
+        this.userStorage = userStorage;
+    }
 
     @GetMapping("/users")
     public List<User> findAllUsers() {
@@ -39,9 +45,10 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User create(@Valid @RequestBody User user) throws ValidationException {
+    public User create(@Valid @RequestBody User user) throws ValidationException{
         log.info("Получен запрос на создание нового пользователя");
-            return userStorage.create(user);
+        validationUser(user);
+        return userStorage.create(user);
     }
 
     @PutMapping("/users")
@@ -50,6 +57,7 @@ public class UserController {
         if (user.getId() <= 0) {
             throw new NotFoundException("ID меньше или равно 0");
         }
+        validationUser(user);
         return userStorage.updateUser(user);
     }
 
@@ -58,7 +66,7 @@ public class UserController {
     }
 
     @PutMapping("users/{id}/friends/{friendId}")//добавление в друзья
-    public void addToFriends(@PathVariable int id, @PathVariable int friendId) {
+    public void addToFriends(@PathVariable int id, @PathVariable int friendId) throws ValidationException {
         log.info("Получен запрос на добавление в друзья");
         if (id <= 0 || friendId <= 0) {
             throw new NotFoundException("ID меньше или равно 0");
@@ -67,7 +75,7 @@ public class UserController {
     }
 
     @DeleteMapping("users/{id}/friends/{friendId}")//удаление из друзей
-    public void deleteFromFriends(@PathVariable int id, @PathVariable int friendId) {
+    public void deleteFromFriends(@PathVariable int id, @PathVariable int friendId) throws ValidationException{
         log.info("Получен запрос на удаление из друзей");
         if (id <= 0 || friendId <= 0) {
             throw new NotFoundException("ID меньше или равно 0");
@@ -81,8 +89,9 @@ public class UserController {
         if (id <= 0) {
             throw new NotFoundException("ID меньше или равно 0");
         }
-        if (userService.returnListFriends(id, DESCENDING_ORDER).isEmpty()) {
-            throw new NotFoundException("Друзья не найдены");
+        if (userService.returnListFriends(id,DESCENDING_ORDER) == null ||
+                userService.returnListFriends(id,DESCENDING_ORDER).isEmpty()) {
+            return new ArrayList<>();
         }
         return userService.returnListFriends(id, DESCENDING_ORDER);
     }
@@ -93,6 +102,6 @@ public class UserController {
         if (id <= 0 || otherId <= 0) {
             throw new NotFoundException("ID равно 0");
         }
-        return userService.returnListMutualFriends(id, otherId, DESCENDING_ORDER);
+        return userService.returnListMutualFriends(id, otherId);
     }
 }
