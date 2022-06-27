@@ -49,24 +49,4 @@ public class InMemoryFilmStorage implements FilmStorage {
     public Film getFilmById(int filmId) {
         return films.get(filmId);
     }
-
-    @Override
-    public List<RatingFilm> getAllMpa(){
-        return null;
-    }
-
-    @Override
-    public RatingFilm getMpaById(int id) {
-        return null;
-    }
-
-    @Override
-    public List<Genre> getAllGenre() {
-        return null;
-    }
-
-    @Override
-    public Genre getGenreById(int id) {
-        return null;
-    }
 }

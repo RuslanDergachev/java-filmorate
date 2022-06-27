@@ -36,7 +36,7 @@ public class UserDbStorage implements UserStorage {
     @Override
     public List<User> findAllUsers() {
         // метод принимает в виде аргумента строку запроса, преобразователь и аргумент — id пользователя
-        String sql = "select * from users";
+        String sql = "SELECT * FROM users";
 
         ResultSetExtractor<List<User>> extractor = rs -> makeListUser(rs);
         return jdbcTemplate.query(sql, extractor);
@@ -80,16 +80,16 @@ public class UserDbStorage implements UserStorage {
     @Override
     public User updateUser(User user) {
         if (user != null) {
-            jdbcTemplate.update("UPDATE USERS SET NAME = ?, LOGIN = ?, E_MAIL = ?, " +
-                            "BIRTHDAY = ? where USER_ID = ?", user.getName(),
+            jdbcTemplate.update("UPDATE users SET name = ?, login = ?, e_mail = ?, " +
+                            "birthday = ? WHERE user_id = ?", user.getName(),
                     user.getLogin(), user.getEmail(), user.getBirthday(), user.getId());
 
-            jdbcTemplate.update("DELETE FROM FRIENDS WHERE USER_ID = ?",
+            jdbcTemplate.update("DELETE FROM friends WHERE user_id = ?",
                     user.getId());
 
             if (user.getFriends() != null) {
                 for (Integer friend : user.getFriends()) {
-                    jdbcTemplate.update("INSERT INTO FRIENDS (USER_ID, FRIEND_ID, STATUS) values (?, ?, ?)",
+                    jdbcTemplate.update("INSERT INTO friends (user_id, friend_id, status) values (?, ?, ?)",
                             user.getId(), friend, false);
                 }
             }
@@ -114,7 +114,7 @@ public class UserDbStorage implements UserStorage {
         if (userId <= 0) {
             throw new NotFoundException("id меньше или равно 0");
         }
-        SqlRowSet userRows = jdbcTemplate.queryForRowSet("select * from users where user_id = ?", userId);
+        SqlRowSet userRows = jdbcTemplate.queryForRowSet("SELECT * FROM users WHERE user_id = ?", userId);
         if (userRows.next()) {
             User user = new User(
                     userRows.getInt("user_id"),
@@ -123,9 +123,9 @@ public class UserDbStorage implements UserStorage {
                     userRows.getString("e_mail"),
                     LocalDate.parse(Objects.requireNonNull(userRows.getString("birthday")))
             );
-            SqlRowSet userRows2 = jdbcTemplate.queryForRowSet("SELECT * FROM FRIENDS where USER_ID = ?", userId);
+            SqlRowSet userRows2 = jdbcTemplate.queryForRowSet("SELECT * FROM friends WHERE user_id = ?", userId);
             while (userRows2.next()) {
-                Integer idFriend = userRows2.getInt("FRIEND_ID");
+                Integer idFriend = userRows2.getInt("friend_id");
                 allFriends.add(idFriend);
             }
             Set<Integer> friends = new HashSet<>(allFriends);

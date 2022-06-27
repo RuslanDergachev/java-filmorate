@@ -20,13 +20,5 @@ public interface FilmStorage {
 
     Film getFilmById(int filmId);
 
-    List<RatingFilm> getAllMpa();
-
-    RatingFilm getMpaById(int id);
-
-    List<Genre> getAllGenre();
-
-    Genre getGenreById(int id);
-
     List<Film> getPopularFilm(int count);
 }

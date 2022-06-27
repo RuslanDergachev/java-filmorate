@@ -1,22 +1,18 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
-import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.model.RatingFilm;
+import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @Component
@@ -59,7 +55,6 @@ public class FilmController {
         if (film.getId() <= 0) {
             throw new NotFoundException("ID меньше или равно 0");
         }
-        //validationDataReleaseFilm(film);
         return filmStorage.updateFilm(film);
     }
 
@@ -88,36 +83,6 @@ public class FilmController {
             return null;
         }
         return filmService.returnListBestFilms(count);
-    }
-
-    @GetMapping("/mpa")
-    public List<RatingFilm> returnAllMpa() {
-        log.info("Запрос списка рейтигов получен.");
-        return filmStorage.getAllMpa();
-    }
-
-    @GetMapping("/mpa/{id}")
-    public RatingFilm getMpa(@PathVariable int id) {
-        log.info("Получен запрос на получение рейтинга");
-        if (id <= 0) {
-            throw new NotFoundException("ID меньше или равно 0");
-        }
-        return filmStorage.getMpaById(id);
-    }
-
-    @GetMapping("/genres")
-    public List<Genre> getListGenres() {
-        log.info("Запрос списка рейтигов получен.");
-        return filmStorage.getAllGenre();
-    }
-
-    @GetMapping("/genres/{id}")
-    public Genre getGenre(@PathVariable int id) {
-        log.info("Получен запрос на получение жанра");
-        if (id <= 0) {
-            throw new NotFoundException("ID меньше или равно 0");
-        }
-        return filmStorage.getGenreById(id);
     }
 
     public void validationDataReleaseFilm(Film film) throws ValidationException {

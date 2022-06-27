@@ -9397,3 +9397,31 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/brusl_d
 	at org.h2.mvstore.FileStore.open(FileStore.java:163)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:444)
 	... 46 more
+2022-06-27 11:12:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"
+Syntax error in SQL statement "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"; SQL statement:
+INSERT INTO genre_film (film_id, genre_id) VALUES (  ) (?, ?) [42000-210]
+2022-06-27 11:12:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"
+Syntax error in SQL statement "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"; SQL statement:
+INSERT INTO genre_film (film_id, genre_id) VALUES (  ) (?, ?) [42000-210]
+2022-06-27 11:12:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"
+Syntax error in SQL statement "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"; SQL statement:
+INSERT INTO genre_film (film_id, genre_id) VALUES (  ) (?, ?) [42000-210]
+2022-06-27 11:15:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"
+Syntax error in SQL statement "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"; SQL statement:
+INSERT INTO genre_film (film_id, genre_id) VALUES (  ) (?, ?) [42000-210]
+2022-06-27 11:15:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"
+Syntax error in SQL statement "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"; SQL statement:
+INSERT INTO genre_film (film_id, genre_id) VALUES (  ) (?, ?) [42000-210]
+2022-06-27 11:15:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"
+Syntax error in SQL statement "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"; SQL statement:
+INSERT INTO genre_film (film_id, genre_id) VALUES (  ) (?, ?) [42000-210]
+2022-06-27 11:15:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"
+Syntax error in SQL statement "INSERT INTO genre_film (film_id, genre_id) VALUES (  ) [*](?, ?)"; SQL statement:
+INSERT INTO genre_film (film_id, genre_id) VALUES (  ) (?, ?) [42000-210]
